@@ -23,10 +23,11 @@ export const Games = ({authToken}) => {
         if (games && games.length) {
             return games.map(game => <div key={`key-${game.id}`} className="border p-5 border-solid hover:bg-fuchsia-500 hover:text-violet-50 rounded-md border-violet-900 mt-5 bg-slate-50">
                 {game.title} (by {game.designer})
-                {game.description}
-                Released {game.year_released}
-                Players: {game.number_of_players}
-                Age Recomendation: {game.age_rec}
+                Score: {game.average_score} 
+                {game.description} 
+                Released {game.year_released} 
+                Players: {game.number_of_players} 
+                Age Recomendation: {game.age_rec} 
                 <div>Categories: {game.categories}</div>
                 <button type="submit"
                     onClick={()=>{navigate(`/view/${game.id}`)}}

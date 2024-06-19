@@ -41,6 +41,11 @@ export const ViewGame = ({authToken}) => {
                 Age Recomendation: {game.age_rec}
                 <div>Categories: {game.categories}</div>
                 <button type="submit"
+                    onClick={()=>{navigate(`/edit/${gameId}`)}}
+                    className="button rounded-md bg-blue-700 text-blue-100 p-3 mt-4">
+                    Edit Game
+                </button>
+                <button type="submit"
                     onClick={()=>{navigate(`/view/${gameId}/review`)}}
                     className="button rounded-md bg-blue-700 text-blue-100 p-3 mt-4">
                     Leave Review

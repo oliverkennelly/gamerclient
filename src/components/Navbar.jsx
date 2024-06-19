@@ -11,9 +11,6 @@ export const NavBar = () => {
             <li className="navbar__item">
                 <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/create"}>New Game</NavLink>
             </li>
-            <li className="navbar__item">
-                <NavLink className="text-left underline text-blue-600 hover:text-purple-700" to={"/mine"}>My Rocks</NavLink>
-            </li>
             {
                 (localStorage.getItem("game_token") !== null) ?
                     <li className="navbar__item">
