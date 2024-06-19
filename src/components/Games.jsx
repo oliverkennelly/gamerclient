@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export const Games = ({authToken}) => {
-
+    const navigate = useNavigate()
     const [games, setGames] = useState([])
 
     const fetchGames = async () => {
@@ -27,6 +28,11 @@ export const Games = ({authToken}) => {
                 Players: {game.number_of_players}
                 Age Recomendation: {game.age_rec}
                 <div>Categories: {game.categories}</div>
+                <button type="submit"
+                    onClick={()=>{navigate(`/view/${game.id}`)}}
+                    className="button rounded-md bg-blue-700 text-blue-100 p-3 mt-4">
+                    View Game
+                </button>
             </div>)
         }
 
