@@ -27,6 +27,28 @@ export const Games = ({authToken}) => {
         setGames(gameReply);
     };
 
+    const fetchFilteredGames = async (value) => {
+        let query = ""
+        switch (value) {
+            case 1:
+                query = "-year_released"
+                break;
+            case 2:
+                query = "-estimated_time"
+                break;
+            case 3:
+                query = "designer"
+        }
+        const url = `http://localhost:8000/games?order_by=${query}`;
+        const response = await fetch(url, {
+            headers: {
+                "Authorization": authToken
+            }
+        });
+        const gameReply = await response.json();
+        setGames(gameReply);
+    };
+
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
             fetchGamesWithQuery(searchQuery);
@@ -45,6 +67,7 @@ export const Games = ({authToken}) => {
                 {game.description} 
                 Released {game.year_released} 
                 Players: {game.number_of_players} 
+                Play Time: {game.estimated_time}
                 Age Recomendation: {game.age_rec} 
                 <div>Categories: {game.categories}</div>
                 <button type="submit"
@@ -71,6 +94,17 @@ export const Games = ({authToken}) => {
                 onKeyDown={handleKeyDown}
                 className="border border-gray-300 rounded-md p-2 mb-4"
             />
+             <fieldset className="mt-4">
+                        <label htmlFor="category"> Filter </label>
+                        <br />
+                        <select id="category" className="form-control"
+                            onChange={(v) => fetchFilteredGames(parseInt(v.target.value))}>
+                            <option value={0}>- All games -</option>
+                            <option value={1}> Year released </option>
+                            <option value={2}> Estimated time</option>
+                            <option value={3}> Designer </option>
+                        </select>
+                    </fieldset>
             {displayGames()}
         </>
     )
