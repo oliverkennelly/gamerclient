@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 export const Games = ({authToken}) => {
     const navigate = useNavigate()
     const [games, setGames] = useState([])
+    const [searchQuery, setSearchQuery] = useState("");
 
     const fetchGames = async () => {
         const response = await fetch("http://localhost:8000/games", {
@@ -14,6 +15,23 @@ export const Games = ({authToken}) => {
         const gameReply = await response.json()
         setGames(gameReply)
     }
+
+    const fetchGamesWithQuery = async (query) => {
+        const url = `http://localhost:8000/games?q=${query}`;
+        const response = await fetch(url, {
+            headers: {
+                "Authorization": authToken
+            }
+        });
+        const gameReply = await response.json();
+        setGames(gameReply);
+    };
+
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+            fetchGamesWithQuery(searchQuery);
+        }
+    };
 
     useEffect(() => {
         fetchGames()
@@ -37,12 +55,22 @@ export const Games = ({authToken}) => {
             </div>)
         }
 
-        return <h3>Loading games...</h3>
+        return <h3>No games found.</h3>
     }
 
     return (
         <>
             <h1 className="text-3xl">Game List</h1>
+            <input
+                type="text"
+                placeholder="Search games..."
+                value={searchQuery}
+                onChange={e => {
+                    setSearchQuery(e.target.value)
+                }}
+                onKeyDown={handleKeyDown}
+                className="border border-gray-300 rounded-md p-2 mb-4"
+            />
             {displayGames()}
         </>
     )

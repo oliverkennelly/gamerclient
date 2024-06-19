@@ -50,6 +50,11 @@ export const ViewGame = ({authToken}) => {
                     className="button rounded-md bg-blue-700 text-blue-100 p-3 mt-4">
                     Leave Review
                 </button>
+                <button type="submit"
+                    onClick={()=>{navigate(`/view/${gameId}/upload`)}}
+                    className="button rounded-md bg-blue-700 text-blue-100 p-3 mt-4">
+                    Upload Image
+                </button>
                 <div>
                     Reviews:
                     {
