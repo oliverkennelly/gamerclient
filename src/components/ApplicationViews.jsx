@@ -6,6 +6,7 @@ import { Register } from '../pages/Register.jsx'
 import { Games } from "./Games.jsx"
 import { GameForm } from "./GameForm.jsx"
 import { ViewGame } from "./ViewGame.jsx"
+import { ReviewForm } from "./ReviewForm.jsx"
 
 
 export const ApplicationViews = () => {
@@ -23,6 +24,7 @@ export const ApplicationViews = () => {
                 <Route path="/view">
                     <Route path=":gameId" element={<ViewGame authToken={authToken}/>}/>
                 </Route>
+                <Route path="/view/:gameId/review" element={<ReviewForm authToken={authToken} />} />
             </Route>
         </Routes>
     </BrowserRouter>

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 export const ViewGame = ({authToken}) => {
+    const navigate = useNavigate()
     const {gameId} = useParams()
     const [game, setGame] = useState({})
+    const [reviews, setReviews] = useState([])
 
     const fetchGame = async () => {
         const response = await fetch(`http://localhost:8000/games/${gameId}`, {
@@ -15,8 +17,19 @@ export const ViewGame = ({authToken}) => {
         setGame(gameReply)
     }
 
+    const fetchReviews = async () => {
+        const response = await fetch(`http://localhost:8000/reviews?game=${gameId}`, {
+            headers: {
+                "Authorization": authToken
+            }
+        })
+        const reviewReply = await response.json()
+        setReviews(reviewReply)
+    }
+
     useEffect(()=>{
         fetchGame()
+        fetchReviews()
     }, [gameId])
 
     return (
@@ -27,6 +40,20 @@ export const ViewGame = ({authToken}) => {
                 Players: {game.number_of_players}
                 Age Recomendation: {game.age_rec}
                 <div>Categories: {game.categories}</div>
+                <button type="submit"
+                    onClick={()=>{navigate(`/view/${gameId}/review`)}}
+                    className="button rounded-md bg-blue-700 text-blue-100 p-3 mt-4">
+                    Leave Review
+                </button>
+                <div>
+                    Reviews:
+                    {
+                        reviews.map(r => <div key={r.id}>
+                            score: {r.score}
+                            <div>{r.comment}</div>
+                        </div>)
+                    }
+                </div>
         </div>
     )
 }
